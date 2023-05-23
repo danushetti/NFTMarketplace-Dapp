@@ -82,7 +82,7 @@ export default function Home(){
                   <Image src={nft.image} alt={nft.name} width={300} height={200} placeholder="blur" blurDataURL='/placeholder.png' layout='responsive'/>
                   <div className='p-4'>
                     <p style={{height:'50px'}} className="text-2xl font-semibold">{nft.name}</p>
-                    <div style={{height:'20px',overflow:'hidden'}}>
+                    <div style={{height:'30px',overflow:'hidden'}}>
                       <p className='text-gray-400'>{nft.description}</p>
                     </div>
                   </div>
