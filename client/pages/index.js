@@ -4,7 +4,7 @@ import axios from 'axios';
 import Web3Modal, { getChainId } from 'web3modal';
 import { contractAddress,INFURA_URL } from '../config';
 import NFTMarketplace from '../abi/NFTMarketplace.json';
-//import Image from 'next/image';
+import Image from 'next/image';
 
 export default function Home(){
  
@@ -21,7 +21,7 @@ export default function Home(){
     const marketContract = new ethers.Contract(contractAddress, NFTMarketplace.abi, provider);
     const data = await  marketContract.fetchMarketItems(); //all unsold items
 
-    const item = await Promise.all(data.map(async i =>{
+    const items = await Promise.all(data.map(async i =>{
       const tokenUri = await marketContract.tokenURI(i.tokenId);
       const meta = await axios.get(tokenUri);
       let price =  ethers.utils.formatUnits(i.price.toString(),'ether');
@@ -31,13 +31,17 @@ export default function Home(){
        tokenId: i.tokenId.toNumber(),
        seller: i.seller,
        owner: i.owner,
-       image: meta.data.name,
+       name: meta.data.name,
+       image: meta.data.image,
        description: meta.data.description
       };
 
       return item;
+
     }));
-    setNFTs(item);
+    setNFTs(items);
+    console.log(items.length)
+
     setLoadingState('loaded');
   }
 
@@ -77,8 +81,8 @@ export default function Home(){
                 <div key={i} className='border shadow rounded-xl overflow-hidden mx-5 my-5'>
                   <Image src={nft.image} alt={nft.name} width={300} height={200} placeholder="blur" blurDataURL='/placeholder.png' layout='responsive'/>
                   <div className='p-4'>
-                    <p style={{height:'64px'}} className="text-2xl font-semibold">{nft.name}</p>
-                    <div style={{height:'70px',overflow:'hidden'}}>
+                    <p style={{height:'50px'}} className="text-2xl font-semibold">{nft.name}</p>
+                    <div style={{height:'20px',overflow:'hidden'}}>
                       <p className='text-gray-400'>{nft.description}</p>
                     </div>
                   </div>

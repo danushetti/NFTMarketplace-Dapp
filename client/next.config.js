@@ -4,6 +4,11 @@ const nextConfig = {
   experimental: {
     newNextLinkBehavior: false,
   },
+  swcMinify: true,
+  images: {
+    domains: ['gateway.pinata.cloud']
+  }
+
 }
 
 module.exports = nextConfig
